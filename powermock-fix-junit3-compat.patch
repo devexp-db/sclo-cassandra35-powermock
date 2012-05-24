@@ -1,0 +1,37 @@
+Index: modules/module-impl/junit3/src/main/java/org/powermock/modules/junit3/internal/impl/PowerMockJUnit3RunnerDelegateImpl.java
+===================================================================
+--- modules/module-impl/junit3/src/main/java/org/powermock/modules/junit3/internal/impl/PowerMockJUnit3RunnerDelegateImpl.java	(Revision 1774)
++++ modules/module-impl/junit3/src/main/java/org/powermock/modules/junit3/internal/impl/PowerMockJUnit3RunnerDelegateImpl.java	(Arbeitskopie)
+@@ -54,12 +54,12 @@
+             getTestConstructor(theClass); // Avoid generating multiple error
+             // messages
+         } catch (NoSuchMethodException e) {
+-            addTest(warning("Class " + theClass.getName() + " has no public constructor TestCase(String name) or TestCase()"));
++            addTest(warningInternal("Class " + theClass.getName() + " has no public constructor TestCase(String name) or TestCase()"));
+             return;
+         }
+ 
+         if (!Modifier.isPublic(theClass.getModifiers())) {
+-            addTest(warning("Class " + theClass.getName() + " is not public"));
++            addTest(warningInternal("Class " + theClass.getName() + " is not public"));
+             return;
+         }
+ 
+@@ -95,7 +95,7 @@
+             superClass = superClass.getSuperclass();
+         }
+         if (testCount() == 0) {
+-            addTest(warning("No tests found in " + theClass.getName()));
++            addTest(warningInternal("No tests found in " + theClass.getName()));
+         }
+     }
+ 
+@@ -119,7 +119,7 @@
+     /**
+      * Returns a test which will fail and log a warning message.
+      */
+-    private static Test warning(final String message) {
++    private static Test warningInternal(final String message) {
+         return new TestCase("warning") {
+             protected void runTest() {
+                 fail(message);
