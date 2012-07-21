@@ -1,6 +1,6 @@
 Name:           powermock
 Version:        1.4.12
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        A Java mocking framework
 Group:          Development/Libraries
 
@@ -237,6 +237,9 @@ cp -rp target/site/apidocs/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}
 %doc LICENSE.txt
 
 %changelog
+* Sat Jul 21 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.4.12-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+
 * Fri May 18 2012 Roman Kennke <rkennke@redhat.com> 1.4.12-4
 - Use svn export instead of svn checkout for creating source archive
 - Remove 3rd party sources from source archive
