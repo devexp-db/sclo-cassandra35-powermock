@@ -1,6 +1,6 @@
 Name:           powermock
 Version:        1.4.12
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        A Java mocking framework
 Group:          Development/Libraries
 
@@ -20,7 +20,7 @@ Patch3:         powermock-fix-junit3-compat.patch
 BuildArch:      noarch
 BuildRequires:  jpackage-utils
 BuildRequires:  java-devel
-BuildRequires:  maven
+BuildRequires:  maven-local
 BuildRequires:  maven-enforcer-plugin
 BuildRequires:  maven-surefire-plugin
 BuildRequires:  maven-surefire-provider-junit4
@@ -237,6 +237,10 @@ cp -rp target/site/apidocs/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}
 %doc LICENSE.txt
 
 %changelog
+* Wed Feb 06 2013 Java SIG <java-devel@lists.fedoraproject.org> - 1.4.12-6
+- Update for https://fedoraproject.org/wiki/Fedora_19_Maven_Rebuild
+- Replace maven BuildRequires with maven-local
+
 * Sat Jul 21 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.4.12-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
