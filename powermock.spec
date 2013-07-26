@@ -24,6 +24,7 @@ BuildRequires:  maven-local
 BuildRequires:  maven-enforcer-plugin
 BuildRequires:  maven-surefire-plugin
 BuildRequires:  maven-surefire-provider-junit4
+BuildRequires:  maven-install-plugin
 BuildRequires:  objenesis
 BuildRequires:  junit4
 BuildRequires:  junit
