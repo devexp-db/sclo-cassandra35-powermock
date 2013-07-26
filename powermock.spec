@@ -1,6 +1,6 @@
 Name:           powermock
 Version:        1.4.12
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        A Java mocking framework
 Group:          Development/Libraries
 
@@ -28,7 +28,7 @@ BuildRequires:  objenesis
 BuildRequires:  junit4
 BuildRequires:  junit
 BuildRequires:  mockito
-BuildRequires:  easymock
+BuildRequires:  easymock3
 BuildRequires:  javassist
 
 Requires:       jpackage-utils
@@ -237,6 +237,9 @@ cp -rp target/site/apidocs/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}
 %doc LICENSE.txt
 
 %changelog
+* Fri Jul 26 2013 Alexander Kurtakov <akurtako@redhat.com> 1.4.12-8
+- Build against easymock3.
+
 * Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.4.12-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
