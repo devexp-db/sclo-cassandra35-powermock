@@ -1,6 +1,6 @@
 Name:           powermock
 Version:        1.4.12
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        A Java mocking framework
 
 License:        ASL 2.0
@@ -90,6 +90,16 @@ Requires:       %{name}-common = %{version}-%{release}
 
 This package contains the PowerMock Mockito API extension.
 
+%package api-easymock
+Summary:        PowerMock EasyMock API module
+Requires:       %{name}-common = %{version}-%{release}
+
+%description api-easymock
+%{desc}
+
+This package contains the PowerMock EasyMock API extension.
+
+
 %package javadoc
 Summary:        JavaDocs for %{name}
 
@@ -113,7 +123,6 @@ This package contains the API documentation for %{name}.
 %pom_disable_module testng-agent modules/module-impl
 %pom_disable_module testng-common modules/module-impl
 %pom_disable_module agent modules/module-impl
-%pom_disable_module easymock api
 %pom_disable_module examples
 %pom_disable_module release
 %pom_disable_module classloading-xstream classloading
@@ -123,7 +132,6 @@ This package contains the API documentation for %{name}.
 %pom_xpath_remove "pom:plugin[pom:artifactId='maven-javadoc-plugin']/pom:executions"
 
 %mvn_package :powermock-core core
-%mvn_package :powermock-classloading-module core
 %mvn_package :powermock-classloading-base core
 %mvn_package :powermock-classloading-objenesis core
 %mvn_package :powermock-module-junit4 junit4
@@ -131,15 +139,13 @@ This package contains the API documentation for %{name}.
 %mvn_package :powermock-module-junit4-common junit4
 %mvn_package :powermock-api-mockito api-mockito
 %mvn_package :powermock-api-support api-support
+%mvn_package :powermock-api-easymock api-easymock
 %mvn_package :powermock-reflect reflect
 
 %mvn_package org.powermock.tests: __noinstall
 
 # poms are not neede by anything
-%mvn_package org.powermock:powermock __noinstall
-%mvn_package org.powermock:powermock-api __noinstall
-%mvn_package org.powermock:powermock-modules __noinstall
-%mvn_package org.powermock:powermock-modules-impl __noinstall
+%mvn_package ::pom: __noinstall
 
 %build
 %mvn_build
@@ -155,11 +161,15 @@ This package contains the API documentation for %{name}.
 %files junit4 -f .mfiles-junit4
 %files api-support -f .mfiles-api-support
 %files api-mockito -f .mfiles-api-mockito
+%files api-easymock -f .mfiles-api-easymock
 
 %files javadoc -f .mfiles-javadoc
 %doc LICENSE.txt
 
 %changelog
+* Thu Mar 27 2014 Michael Simacek <msimacek@redhat.com> - 1.4.12-10
+- Enable api-easymock module
+
 * Fri Mar 21 2014 Michael Simacek <msimacek@redhat.com> - 1.4.12-9
 - Use mvn_build
 - Drop manual requires
