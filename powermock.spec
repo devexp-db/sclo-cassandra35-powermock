@@ -1,6 +1,6 @@
 Name:           powermock
 Version:        1.4.12
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        A Java mocking framework
 
 License:        ASL 2.0
@@ -167,6 +167,9 @@ This package contains the API documentation for %{name}.
 %doc LICENSE.txt
 
 %changelog
+* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.4.12-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Thu Mar 27 2014 Michael Simacek <msimacek@redhat.com> - 1.4.12-10
 - Enable api-easymock module
 
