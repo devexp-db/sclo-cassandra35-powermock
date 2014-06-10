@@ -1,6 +1,6 @@
 Name:           powermock
 Version:        1.4.12
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        A Java mocking framework
 
 License:        ASL 2.0
@@ -19,10 +19,9 @@ BuildArch:      noarch
 BuildRequires:  maven-local
 BuildRequires:  maven-enforcer-plugin
 BuildRequires:  maven-surefire-plugin
-BuildRequires:  maven-surefire-provider-junit4
 BuildRequires:  maven-install-plugin
 BuildRequires:  objenesis
-BuildRequires:  junit4
+BuildRequires:  junit
 BuildRequires:  mockito
 BuildRequires:  easymock3
 BuildRequires:  javassist
@@ -167,6 +166,11 @@ This package contains the API documentation for %{name}.
 %doc LICENSE.txt
 
 %changelog
+* Tue Jun 10 2014 Severin Gehwolf <sgehwolf@redhat.com> - 1.4.12-12
+- Fix FTBFS by dropping obsolete junit4 surefire provider and
+  changing BR to junit over junit4.
+- Resolves RHBZ#1106669.
+
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.4.12-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 
@@ -204,5 +208,5 @@ This package contains the API documentation for %{name}.
 * Mon Apr 30 2012 Roman Kennke <rkennke@redhat.com> 1.4.12-2
 - Added javadoc subpackage
 
-* Thu Apr 24 2012 Roman Kennke <rkennke@redhat.com> 1.4.12-1
+* Tue Apr 24 2012 Roman Kennke <rkennke@redhat.com> 1.4.12-1
 - Initial package
