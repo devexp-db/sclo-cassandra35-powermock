@@ -1,14 +1,12 @@
 Name:           powermock
-Version:        1.4.12
-Release:        12%{?dist}
+Version:        1.6.2
+Release:        1%{?dist}
 Summary:        A Java mocking framework
 
 License:        ASL 2.0
-URL:            http://code.google.com/p/powermock/
-Source0:        powermock-%{version}.tar.xz
-Source1:        make-powermock-sourcetarball.sh
-# Disable broken tests.
-Patch0:         powermock-disable-broken-tests.patch
+URL:            https://github.com/jayway/powermock
+Source0:        https://github.com/jayway/%{name}/archive/%{name}-%{version}.tar.gz
+
 # Fix cglib dependency of mockito
 Patch2:         powermock-fix-cglib-mockito.patch
 # Fix compatibility with JUnit3
@@ -17,14 +15,18 @@ Patch3:         powermock-fix-junit3-compat.patch
 BuildArch:      noarch
 
 BuildRequires:  maven-local
-BuildRequires:  maven-enforcer-plugin
-BuildRequires:  maven-surefire-plugin
-BuildRequires:  maven-install-plugin
-BuildRequires:  objenesis
-BuildRequires:  junit
-BuildRequires:  mockito
-BuildRequires:  easymock3
-BuildRequires:  javassist
+BuildRequires:  mvn(cglib:cglib-nodep)
+BuildRequires:  mvn(commons-logging:commons-logging)
+BuildRequires:  mvn(javax.servlet:servlet-api)
+BuildRequires:  mvn(junit:junit)
+BuildRequires:  mvn(net.sf.cglib:cglib)
+BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
+BuildRequires:  mvn(org.easymock:easymock)
+BuildRequires:  mvn(org.javassist:javassist)
+BuildRequires:  mvn(org.mockito:mockito-all)
+BuildRequires:  mvn(org.mockito:mockito-core)
+BuildRequires:  mvn(org.objenesis:objenesis)
+BuildRequires:  mvn(org.sonatype.oss:oss-parent:pom:)
 
 %global desc \
 PowerMock is a framework that extend other mock libraries\
@@ -108,10 +110,18 @@ Summary:        JavaDocs for %{name}
 This package contains the API documentation for %{name}.
 
 %prep
-%setup -q
-%patch0
+%setup -q -n %{name}-%{name}-%{version}
+
 %patch2
 %patch3
+
+# bundled sources of various libraries
+rm -r modules/module-impl/agent
+
+find -name '*.java' | xargs sed -i 's/org\.mockito\.cglib/net.sf.cglib/g'
+
+# Assumes different JUnit version
+rm modules/module-impl/junit4-common/src/test/java/org/powermock/modules/junit4/common/internal/impl/JUnitVersionTest.java
 
 # Disable modules that we cannot build (yet).
 %pom_disable_module module-test modules
@@ -143,7 +153,7 @@ This package contains the API documentation for %{name}.
 
 %mvn_package org.powermock.tests: __noinstall
 
-# poms are not neede by anything
+# poms are not needed by anything
 %mvn_package ::pom: __noinstall
 
 %build
@@ -154,7 +164,7 @@ This package contains the API documentation for %{name}.
 
 %files common
 %dir %{_javadir}/%{name}
-%doc LICENSE.txt
+%license LICENSE.txt
 %files reflect -f .mfiles-reflect
 %files core -f .mfiles-core
 %files junit4 -f .mfiles-junit4
@@ -163,9 +173,15 @@ This package contains the API documentation for %{name}.
 %files api-easymock -f .mfiles-api-easymock
 
 %files javadoc -f .mfiles-javadoc
-%doc LICENSE.txt
+%license LICENSE.txt
 
 %changelog
+* Wed May 20 2015 Michael Simacek <msimacek@redhat.com> - 1.6.2-1
+- Update to upstream version 1.6.2
+- Update upstream URL
+- Use upstream tarball since the bundled files are opensource and thus can be
+  removed in %prep
+
 * Tue Jun 10 2014 Severin Gehwolf <sgehwolf@redhat.com> - 1.4.12-12
 - Fix FTBFS by dropping obsolete junit4 surefire provider and
   changing BR to junit over junit4.
