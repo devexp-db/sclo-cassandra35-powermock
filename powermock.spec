@@ -1,6 +1,6 @@
 Name:           powermock
 Version:        1.6.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A Java mocking framework
 
 License:        ASL 2.0
@@ -176,6 +176,9 @@ rm modules/module-impl/junit4-common/src/test/java/org/powermock/modules/junit4/
 %license LICENSE.txt
 
 %changelog
+* Thu Jun 18 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.6.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
 * Wed May 20 2015 Michael Simacek <msimacek@redhat.com> - 1.6.2-1
 - Update to upstream version 1.6.2
 - Update upstream URL
