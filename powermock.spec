@@ -1,16 +1,13 @@
 Name:           powermock
-Version:        1.6.2
-Release:        3%{?dist}
+Version:        1.6.5
+Release:        1%{?dist}
 Summary:        A Java mocking framework
 
 License:        ASL 2.0
 URL:            https://github.com/jayway/powermock
 Source0:        https://github.com/jayway/%{name}/archive/%{name}-%{version}.tar.gz
 
-# Fix cglib dependency of mockito
-Patch2:         powermock-fix-cglib-mockito.patch
-# Fix compatibility with JUnit3
-Patch3:         powermock-fix-junit3-compat.patch
+Patch1:         0001-Fix-junit3-compat.patch
 
 BuildArch:      noarch
 
@@ -21,9 +18,10 @@ BuildRequires:  mvn(javax.servlet:servlet-api)
 BuildRequires:  mvn(junit:junit)
 BuildRequires:  mvn(net.sf.cglib:cglib)
 BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
+BuildRequires:  mvn(org.assertj:assertj-core)
 BuildRequires:  mvn(org.easymock:easymock)
+BuildRequires:  mvn(org.hamcrest:hamcrest-core)
 BuildRequires:  mvn(org.javassist:javassist)
-BuildRequires:  mvn(org.mockito:mockito-all)
 BuildRequires:  mvn(org.mockito:mockito-core)
 BuildRequires:  mvn(org.objenesis:objenesis)
 BuildRequires:  mvn(org.sonatype.oss:oss-parent:pom:)
@@ -112,8 +110,7 @@ This package contains the API documentation for %{name}.
 %prep
 %setup -q -n %{name}-%{name}-%{version}
 
-%patch2
-%patch3
+%patch1 -p1
 
 # bundled sources of various libraries
 rm -r modules/module-impl/agent
@@ -122,6 +119,8 @@ find -name '*.java' | xargs sed -i 's/org\.mockito\.cglib/net.sf.cglib/g'
 
 # Assumes different JUnit version
 rm modules/module-impl/junit4-common/src/test/java/org/powermock/modules/junit4/common/internal/impl/JUnitVersionTest.java
+
+%pom_add_dep net.sf.cglib:cglib api/mockito
 
 # Disable modules that we cannot build (yet).
 %pom_disable_module module-test modules
@@ -135,6 +134,7 @@ rm modules/module-impl/junit4-common/src/test/java/org/powermock/modules/junit4/
 %pom_disable_module examples
 %pom_disable_module release
 %pom_disable_module classloading-xstream classloading
+%pom_disable_module mockito2 api
 
 %pom_remove_plugin :rat-maven-plugin
 %pom_remove_plugin :maven-source-plugin
@@ -147,6 +147,7 @@ rm modules/module-impl/junit4-common/src/test/java/org/powermock/modules/junit4/
 %mvn_package :powermock-module-junit4-rule junit4
 %mvn_package :powermock-module-junit4-common junit4
 %mvn_package :powermock-api-mockito api-mockito
+%mvn_package :powermock-api-mockito-common api-mockito
 %mvn_package :powermock-api-support api-support
 %mvn_package :powermock-api-easymock api-easymock
 %mvn_package :powermock-reflect reflect
@@ -176,6 +177,9 @@ rm modules/module-impl/junit4-common/src/test/java/org/powermock/modules/junit4/
 %license LICENSE.txt
 
 %changelog
+* Wed Jun 01 2016 Michael Simacek <msimacek@redhat.com> - 1.6.5-1
+- Update to upstream version 1.6.5
+
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
