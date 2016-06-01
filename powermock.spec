@@ -1,6 +1,6 @@
 Name:           powermock
 Version:        1.6.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A Java mocking framework
 
 License:        ASL 2.0
@@ -25,6 +25,8 @@ BuildRequires:  mvn(org.javassist:javassist)
 BuildRequires:  mvn(org.mockito:mockito-core)
 BuildRequires:  mvn(org.objenesis:objenesis)
 BuildRequires:  mvn(org.sonatype.oss:oss-parent:pom:)
+BuildRequires:  mvn(org.testng:testng)
+
 
 %global desc \
 PowerMock is a framework that extend other mock libraries\
@@ -98,6 +100,15 @@ Requires:       %{name}-common = %{version}-%{release}
 
 This package contains the PowerMock EasyMock API extension.
 
+%package testng
+Summary:        PowerMock module for TestNG.
+Requires:       %{name}-common = %{version}-%{release}
+
+%description testng
+%{desc}
+
+This package contains the PowerMock TestNG extension.
+
 
 %package javadoc
 Summary:        JavaDocs for %{name}
@@ -127,9 +138,7 @@ rm modules/module-impl/junit4-common/src/test/java/org/powermock/modules/junit4/
 %pom_disable_module junit4-legacy modules/module-impl
 %pom_disable_module junit4-rule-agent modules/module-impl
 %pom_disable_module junit3 modules/module-impl
-%pom_disable_module testng modules/module-impl
 %pom_disable_module testng-agent modules/module-impl
-%pom_disable_module testng-common modules/module-impl
 %pom_disable_module agent modules/module-impl
 %pom_disable_module examples
 %pom_disable_module release
@@ -151,6 +160,8 @@ rm modules/module-impl/junit4-common/src/test/java/org/powermock/modules/junit4/
 %mvn_package :powermock-api-support api-support
 %mvn_package :powermock-api-easymock api-easymock
 %mvn_package :powermock-reflect reflect
+%mvn_package :powermock-module-testng testng
+%mvn_package :powermock-module-testng-common testng
 
 %mvn_package org.powermock.tests: __noinstall
 
@@ -172,11 +183,15 @@ rm modules/module-impl/junit4-common/src/test/java/org/powermock/modules/junit4/
 %files api-support -f .mfiles-api-support
 %files api-mockito -f .mfiles-api-mockito
 %files api-easymock -f .mfiles-api-easymock
+%files testng -f .mfiles-testng
 
 %files javadoc -f .mfiles-javadoc
 %license LICENSE.txt
 
 %changelog
+* Wed Jun 01 2016 Michael Simacek <msimacek@redhat.com> - 1.6.5-2
+- Enable TestNG module
+
 * Wed Jun 01 2016 Michael Simacek <msimacek@redhat.com> - 1.6.5-1
 - Update to upstream version 1.6.5
 
