@@ -1,7 +1,7 @@
-From 7a02e76391894351987184a3ae69588baef04ad3 Mon Sep 17 00:00:00 2001
+From 963d26fcff4b11865a1646d2eb1efdb1412c95a0 Mon Sep 17 00:00:00 2001
 From: Michael Simacek <msimacek@redhat.com>
 Date: Wed, 1 Jun 2016 19:47:52 +0200
-Subject: [PATCH] Fix junit3 compat
+Subject: [PATCH 1/2] Fix junit3 compat
 
 ---
  .../junit3/internal/impl/PowerMockJUnit3RunnerDelegateImpl.java     | 6 +++---
@@ -36,5 +36,5 @@ index af3d2ea..b573b4b 100644
      }
  
 -- 
-2.5.5
+2.7.4
 

@@ -1,6 +1,6 @@
 Name:           powermock
 Version:        1.6.5
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A Java mocking framework
 
 License:        ASL 2.0
@@ -8,6 +8,9 @@ URL:            https://github.com/jayway/powermock
 Source0:        https://github.com/jayway/%{name}/archive/%{name}-%{version}.tar.gz
 
 Patch1:         0001-Fix-junit3-compat.patch
+# powermock contains forked version of mockito
+# this is the same patch as in mockito to fix incompatibility with our cglib
+Patch2:         0002-Setting-naming-policy.patch
 
 BuildArch:      noarch
 
@@ -16,7 +19,6 @@ BuildRequires:  mvn(cglib:cglib-nodep)
 BuildRequires:  mvn(commons-logging:commons-logging)
 BuildRequires:  mvn(javax.servlet:servlet-api)
 BuildRequires:  mvn(junit:junit)
-BuildRequires:  mvn(net.sf.cglib:cglib)
 BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
 BuildRequires:  mvn(org.assertj:assertj-core)
 BuildRequires:  mvn(org.easymock:easymock)
@@ -122,16 +124,19 @@ This package contains the API documentation for %{name}.
 %setup -q -n %{name}-%{name}-%{version}
 
 %patch1 -p1
+%patch2 -p1
 
 # bundled sources of various libraries
 rm -r modules/module-impl/agent
+# there is forked mockito, which contains bundled cglib and asm
+rm -r api/mockito2/src/main/java/org/powermock/api/mockito/repackaged/{cglib,asm}
 
-find -name '*.java' | xargs sed -i 's/org\.mockito\.cglib/net.sf.cglib/g'
+find -name '*.java' | xargs sed -i 's/org\.mockito\.cglib/net.sf.cglib/g;
+                                    s/org\.powermock\.api\.mockito\.repackaged\.cglib/net.cf.cglib/g;
+                                    s/org\.powermock\.api\.mockito\.repackaged\.asm/org.objectweb.asm/g'
 
 # Assumes different JUnit version
 rm modules/module-impl/junit4-common/src/test/java/org/powermock/modules/junit4/common/internal/impl/JUnitVersionTest.java
-
-%pom_add_dep net.sf.cglib:cglib api/mockito
 
 # StackOverflow in koji
 sed -i '/shouldLoadClassAndOverrideMethodGreaterThanJvmLimit/i@org.junit.Ignore' \
@@ -193,6 +198,10 @@ sed -i '/shouldLoadClassAndOverrideMethodGreaterThanJvmLimit/i@org.junit.Ignore'
 %license LICENSE.txt
 
 %changelog
+* Wed Jun 22 2016 Michael Simacek <msimacek@redhat.com> - 1.6.5-4
+- Unbundle asm and cglib
+- Patch forked mockito
+
 * Fri Jun 17 2016 Michael Simacek <msimacek@redhat.com> - 1.6.5-3
 - Skip test that overflows stack in koji
 
