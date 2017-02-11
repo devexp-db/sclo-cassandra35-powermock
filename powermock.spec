@@ -1,6 +1,6 @@
 Name:           powermock
 Version:        1.6.5
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        A Java mocking framework
 
 License:        ASL 2.0
@@ -198,6 +198,9 @@ sed -i '/shouldLoadClassAndOverrideMethodGreaterThanJvmLimit/i@org.junit.Ignore'
 %license LICENSE.txt
 
 %changelog
+* Sat Feb 11 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.5-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Wed Jun 22 2016 Michael Simacek <msimacek@redhat.com> - 1.6.5-4
 - Unbundle asm and cglib
 - Patch forked mockito
