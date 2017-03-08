@@ -1,34 +1,37 @@
-Name:           powermock
-Version:        1.6.5
-Release:        5%{?dist}
-Summary:        A Java mocking framework
+%{?scl:%scl_package powermock}
+%{!?scl:%global pkg_name %{name}}
 
-License:        ASL 2.0
-URL:            https://github.com/jayway/powermock
-Source0:        https://github.com/jayway/%{name}/archive/%{name}-%{version}.tar.gz
+Name:		%{?scl_prefix}powermock
+Version:	1.6.5
+Release:	6%{?dist}
+Summary:	A Java mocking framework
 
-Patch1:         0001-Fix-junit3-compat.patch
+License:	ASL 2.0
+URL:		https://github.com/jayway/powermock
+Source0:	https://github.com/jayway/%{pkg_name}/archive/%{pkg_name}-%{version}.tar.gz
+
+Patch1:		0001-Fix-junit3-compat.patch
 # powermock contains forked version of mockito
 # this is the same patch as in mockito to fix incompatibility with our cglib
-Patch2:         0002-Setting-naming-policy.patch
+Patch2:		0002-Setting-naming-policy.patch
 
-BuildArch:      noarch
+BuildArch:	noarch
 
-BuildRequires:  maven-local
-BuildRequires:  mvn(cglib:cglib-nodep)
-BuildRequires:  mvn(commons-logging:commons-logging)
-BuildRequires:  mvn(javax.servlet:servlet-api)
-BuildRequires:  mvn(junit:junit)
-BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
-BuildRequires:  mvn(org.assertj:assertj-core)
-BuildRequires:  mvn(org.easymock:easymock)
-BuildRequires:  mvn(org.hamcrest:hamcrest-core)
-BuildRequires:  mvn(org.javassist:javassist)
-BuildRequires:  mvn(org.mockito:mockito-core)
-BuildRequires:  mvn(org.objenesis:objenesis)
-BuildRequires:  mvn(org.sonatype.oss:oss-parent:pom:)
-BuildRequires:  mvn(org.testng:testng)
-
+BuildRequires:	%{?scl_prefix_maven}maven-local
+BuildRequires:	%{?scl_prefix}cglib
+BuildRequires:	%{?scl_prefix_java_common}apache-commons-logging
+BuildRequires:	%{?scl_prefix_java_common}tomcat-servlet-3.0-api
+BuildRequires:	%{?scl_prefix_java_common}junit
+BuildRequires:	%{?scl_prefix_maven}maven-plugin-bundle
+BuildRequires:	%{?scl_prefix}assertj-core
+BuildRequires:	%{?scl_prefix_java_common}easymock%{?scl:3}
+BuildRequires:	%{?scl_prefix_java_common}hamcrest
+BuildRequires:	%{?scl_prefix_java_common}javassist
+BuildRequires:	%{?scl_prefix_maven}mockito
+BuildRequires:	%{?scl_prefix_java_common}objenesis
+BuildRequires:	%{?scl_prefix_maven}sonatype-oss-parent
+BuildRequires:	%{?scl_prefix_maven}testng
+%{?scl:Requires: %scl_runtime}
 
 %global desc \
 PowerMock is a framework that extend other mock libraries\
@@ -41,7 +44,7 @@ methods, removal of static initializers and more.
 %{desc}
 
 %package common
-Summary:        Common files for PowerMock
+Summary:	Common files for PowerMock
 
 %description common
 %{desc}
@@ -49,8 +52,8 @@ Summary:        Common files for PowerMock
 This package contains common files for all PowerMock modules.
 
 %package reflect
-Summary:        Reflection module of PowerMock
-Requires:       %{name}-common = %{version}-%{release}
+Summary:	Reflection module of PowerMock
+Requires:	%{name}-common = %{version}-%{release}
 
 %description reflect
 %{desc}
@@ -58,8 +61,8 @@ Requires:       %{name}-common = %{version}-%{release}
 This package contains the reflection module of PowerMock.
 
 %package core
-Summary:        Core module of PowerMock
-Requires:       %{name}-common = %{version}-%{release}
+Summary:	Core module of PowerMock
+Requires:	%{name}-common = %{version}-%{release}
 
 %description core
 %{desc}
@@ -67,8 +70,8 @@ Requires:       %{name}-common = %{version}-%{release}
 This package contains the core module of PowerMock.
 
 %package junit4
-Summary:        JUnit4 common module of PowerMock
-Requires:       %{name}-common = %{version}-%{release}
+Summary:	JUnit4 common module of PowerMock
+Requires:	%{name}-common = %{version}-%{release}
 
 %description junit4
 %{desc}
@@ -76,8 +79,8 @@ Requires:       %{name}-common = %{version}-%{release}
 This package contains the JUnit4 module of PowerMock.
 
 %package api-support
-Summary:        PowerMock API support module
-Requires:       %{name}-common = %{version}-%{release}
+Summary:	PowerMock API support module
+Requires:	%{name}-common = %{version}-%{release}
 
 %description api-support
 %{desc}
@@ -85,8 +88,8 @@ Requires:       %{name}-common = %{version}-%{release}
 This package contains support code for the PowerMock API extensions.
 
 %package api-mockito
-Summary:        PowerMock Mockito API module
-Requires:       %{name}-common = %{version}-%{release}
+Summary:	PowerMock Mockito API module
+Requires:	%{name}-common = %{version}-%{release}
 
 %description api-mockito
 %{desc}
@@ -94,8 +97,8 @@ Requires:       %{name}-common = %{version}-%{release}
 This package contains the PowerMock Mockito API extension.
 
 %package api-easymock
-Summary:        PowerMock EasyMock API module
-Requires:       %{name}-common = %{version}-%{release}
+Summary:	PowerMock EasyMock API module
+Requires:	%{name}-common = %{version}-%{release}
 
 %description api-easymock
 %{desc}
@@ -103,8 +106,8 @@ Requires:       %{name}-common = %{version}-%{release}
 This package contains the PowerMock EasyMock API extension.
 
 %package testng
-Summary:        PowerMock module for TestNG.
-Requires:       %{name}-common = %{version}-%{release}
+Summary:	PowerMock module for TestNG.
+Requires:	%{name}-common = %{version}-%{release}
 
 %description testng
 %{desc}
@@ -113,7 +116,7 @@ This package contains the PowerMock TestNG extension.
 
 
 %package javadoc
-Summary:        JavaDocs for %{name}
+Summary:	JavaDocs for %{name}
 
 %description javadoc
 %{desc}
@@ -121,7 +124,7 @@ Summary:        JavaDocs for %{name}
 This package contains the API documentation for %{name}.
 
 %prep
-%setup -q -n %{name}-%{name}-%{version}
+%setup -q -n %{pkg_name}-%{pkg_name}-%{version}
 
 %patch1 -p1
 %patch2 -p1
@@ -142,6 +145,7 @@ rm modules/module-impl/junit4-common/src/test/java/org/powermock/modules/junit4/
 sed -i '/shouldLoadClassAndOverrideMethodGreaterThanJvmLimit/i@org.junit.Ignore' \
     core/src/test/java/org/powermock/core/transformers/impl/ClassMockTransformerTest.java
 
+%{?scl:scl enable %{scl_maven} %{scl} - << "EOF"}
 # Disable modules that we cannot build (yet).
 %pom_disable_module module-test modules
 %pom_disable_module junit4-legacy modules/module-impl
@@ -158,33 +162,41 @@ sed -i '/shouldLoadClassAndOverrideMethodGreaterThanJvmLimit/i@org.junit.Ignore'
 %pom_remove_plugin :maven-source-plugin
 %pom_xpath_remove "pom:plugin[pom:artifactId='maven-javadoc-plugin']/pom:executions"
 
-%mvn_package :powermock-core core
-%mvn_package :powermock-classloading-base core
-%mvn_package :powermock-classloading-objenesis core
-%mvn_package :powermock-module-junit4 junit4
-%mvn_package :powermock-module-junit4-rule junit4
-%mvn_package :powermock-module-junit4-common junit4
-%mvn_package :powermock-api-mockito api-mockito
-%mvn_package :powermock-api-mockito-common api-mockito
-%mvn_package :powermock-api-support api-support
-%mvn_package :powermock-api-easymock api-easymock
-%mvn_package :powermock-reflect reflect
-%mvn_package :powermock-module-testng testng
-%mvn_package :powermock-module-testng-common testng
+%mvn_package :%{pkg_name}-core core
+%mvn_package :%{pkg_name}-classloading-base core
+%mvn_package :%{pkg_name}-classloading-objenesis core
+%mvn_package :%{pkg_name}-module-junit4 junit4
+%mvn_package :%{pkg_name}-module-junit4-rule junit4
+%mvn_package :%{pkg_name}-module-junit4-common junit4
+%mvn_package :%{pkg_name}-api-mockito api-mockito
+%mvn_package :%{pkg_name}-api-mockito-common api-mockito
+%mvn_package :%{pkg_name}-api-support api-support
+%mvn_package :%{pkg_name}-api-easymock api-easymock
+%mvn_package :%{pkg_name}-reflect reflect
+%mvn_package :%{pkg_name}-module-testng testng
+%mvn_package :%{pkg_name}-module-testng-common testng
 
-%mvn_package org.powermock.tests: __noinstall
+%mvn_package org.%{pkg_name}.tests: __noinstall
 
 # poms are not needed by anything
 %mvn_package ::pom: __noinstall
 
+# change easymock dependency version in scl package
+%pom_change_dep :easymock: :easymock:3.3
+%{?scl:EOF}
+
 %build
+%{?scl:scl enable %{scl_maven} %{scl} - << "EOF"}
 %mvn_build
+%{?scl:EOF}
 
 %install
+%{?scl:scl enable %{scl_maven} %{scl} - << "EOF"}
 %mvn_install
+%{?scl:EOF}
 
 %files common
-%dir %{_javadir}/%{name}
+%dir %{_javadir}/%{pkg_name}
 %license LICENSE.txt
 %files reflect -f .mfiles-reflect
 %files core -f .mfiles-core
@@ -198,6 +210,9 @@ sed -i '/shouldLoadClassAndOverrideMethodGreaterThanJvmLimit/i@org.junit.Ignore'
 %license LICENSE.txt
 
 %changelog
+* Tue Mar 07 2017 Tomas Repik <trepik@redhat.com> - 1.6.5-6
+- scl conversion
+
 * Sat Feb 11 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.5-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
