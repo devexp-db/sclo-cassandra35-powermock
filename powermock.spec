@@ -31,6 +31,7 @@ BuildRequires:	%{?scl_prefix_maven}mockito
 BuildRequires:	%{?scl_prefix_java_common}objenesis
 BuildRequires:	%{?scl_prefix_maven}sonatype-oss-parent
 BuildRequires:	%{?scl_prefix_maven}testng
+BuildRequires:	%{?scl_prefix}snakeyaml
 %{?scl:Requires: %scl_runtime}
 
 %global desc \
